@@ -5,29 +5,54 @@
               android:baselineAligned="false"
               android:padding="@dimen/multipane_half_padding">
 
-<LinearLayout android:orientation="vertical"
-              android:layout_width="0dp"
-              android:layout_height="match_parent"
-              android:layout_weight="1">
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="0dp"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1">
 
-    <TextView style="@style/HomePaneHeader"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="@dimen/multipane_half_padding"
-              android:layout_marginTop="@dimen/multipane_half_padding"
-              android:layout_marginRight="@dimen/multipane_half_padding"
-              android:text="@string/title_discover" />
-
-    <FrameLayout android:layout_width="match_parent"
-                 android:layout_height="0dp"
-                 android:layout_weight="1"
-                 android:layout_margin="@dimen/multipane_half_padding"
-                 android:background="@drawable/grey_frame">
-        <fragment android:name="com.kenta.newdawn.ui.ListAdFragment"
-                  android:id="@+id/fragment_discover"
+        <TextView style="@style/HomePaneHeader"
                   android:layout_width="match_parent"
-                  android:layout_height="match_parent" />
-    </FrameLayout>
-</LinearLayout>
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/multipane_half_padding"
+                  android:layout_marginTop="@dimen/multipane_half_padding"
+                  android:layout_marginRight="@dimen/multipane_half_padding"
+                  android:text="@string/title_discover"/>
+
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="0dp"
+                     android:layout_weight="1"
+                     android:layout_margin="@dimen/multipane_half_padding"
+                     android:background="@drawable/grey_frame">
+            <fragment android:name="com.kenta.newdawn.ui.ListAdFragment"
+                      android:id="@+id/fragment_container"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"/>
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="0dp"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1">
+
+        <TextView style="@style/HomePaneHeader"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/multipane_half_padding"
+                  android:layout_marginTop="@dimen/multipane_half_padding"
+                  android:layout_marginRight="@dimen/multipane_half_padding"
+                  android:text="@string/title_discover"/>
+
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="0dp"
+                     android:layout_weight="1"
+                     android:layout_margin="@dimen/multipane_half_padding"
+                     android:background="@drawable/grey_frame">
+            <fragment android:name="com.kenta.newdawn.ui.DetailAdFragment"
+                      android:id="@+id/fragment_detail_ad_fragment"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"/>
+        </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

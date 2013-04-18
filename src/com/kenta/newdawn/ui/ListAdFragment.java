@@ -6,6 +6,7 @@
 
 package com.kenta.newdawn.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,8 @@ public class ListAdFragment extends SherlockListFragment {
 
     private static final String TAG = LogUtils.makeLogTag(ListAdFragment.class);
 
+    OnListAdSelectedListener mCallback;
+
     private ListAdArrayAdapter listAdArrayAdapter;
     private SpiceManager spiceManagerJson = new SpiceManager(ListAdService.class);
 
@@ -46,6 +49,14 @@ public class ListAdFragment extends SherlockListFragment {
 
     protected boolean isLoading = false;
     boolean isAppending = true;
+
+    // The HomeActivity must implement this interface so the fragment can deliver params
+    public interface OnListAdSelectedListener {
+        /**
+         * Called by ListAdFragment when a list item is selected
+         */
+        public void onAdSelected(int position);
+    }
 
     // --------------------------------------------------------------------------------------------
     // FRAGMENT LIFECYCLE
@@ -72,8 +83,20 @@ public class ListAdFragment extends SherlockListFragment {
     public void onStart() {
         super.onStart();
         spiceManagerJson.start(getActivity());
-        //spiceManagerJson.execute(new ListAdRequest(mQuery, mOffset), "q", DurationInMillis.ONE_SECOND * 10, new ListAdsListener());
-        //asyncListLoad();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception.
+        try {
+            mCallback = (OnListAdSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnLIstAdSelectedListener");
+        }
     }
 
     @Override
@@ -112,6 +135,9 @@ public class ListAdFragment extends SherlockListFragment {
             @Override
             public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getListView().getContext(), position + "", Toast.LENGTH_SHORT).show();
+
+                // Notify the parent activity of selected item
+                mCallback.onAdSelected(position);
             }
         });
 
