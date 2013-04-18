@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">newdawn</string>
+    <string name="title_my_dawn">My Dawn</string>
+    <string name="title_discover">Discover</string>
+    <string name="title_sell">Sell</string>
+
+    <string name="description_search">Search</string>
+    <string name="description_refresh">Refresh</string>
+</resources>

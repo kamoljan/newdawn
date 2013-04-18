@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="multipane_half_padding">16dp</dimen>
+    <dimen name="multipane_padding">32dp</dimen>
+</resources>

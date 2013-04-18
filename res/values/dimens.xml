@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="page_margin_width">16dp</dimen>
+    <dimen name="multipane_half_padding">8dp</dimen>
+
+    <dimen name="text_size_medium">14sp</dimen>
+</resources>
