@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import com.kenta.newdawn.NewDawnApplication;
 import com.kenta.newdawn.R;
 import com.kenta.newdawn.model.json.Ad;
 import com.novoda.imageloader.core.model.ImageTag;
@@ -28,21 +29,22 @@ public class ListAdArrayAdapter extends ArrayAdapter<Ad> {
         imageTagFactory.setSaveThumbnail(true);
     }
 
+    // TODO: where is ViewHolder?
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_sample, null);
         }
         ImageView iv = (ImageView) convertView.findViewById(R.id.item_image);
-        ImageTag tag = imageTagFactory.build(getItem(position).getUrl().replace("thumbs", "images"), getContext());
+        ImageTag tag = imageTagFactory.build(getItem(position).getImgUrl().replace("thumbs", "images"), getContext());
         //ImageTag tag = mTagFactory.build(res.getUrl().replace("images", "thumbs"), getContext());
         iv.setTag(tag);
-        DawnApplication.getImageManager().getLoader().load(iv);
+        NewDawnApplication.getImageManager().getLoader().load(iv);
 
         return convertView;
     }
 
     @Override
-    public BoxItem getItem(int position) {
+    public Ad getItem(int position) {
         return super.getItem(position);
     }
 }

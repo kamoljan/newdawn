@@ -12,9 +12,10 @@ public class AdsRequest extends SpringAndroidSpiceRequest<ListAds> {
     private int offset;
     private int limit = 0;
 
-    public AdsRequest(String keyword) {
+    public AdsRequest(String keyword, int offset) {
         super(ListAds.class);
         this.keyword = keyword;
+        this.offset = offset;
     }
 
     @Override
@@ -22,7 +23,9 @@ public class AdsRequest extends SpringAndroidSpiceRequest<ListAds> {
 
         // With Uri.Builder class we can build our url is a safe manner
         Uri.Builder uriBuilder = Uri.parse(Config.GET_APY_LIST_URL).buildUpon();
-        uriBuilder.appendQueryParameter("q", keyword);
+        if (keyword != null) {
+            uriBuilder.appendQueryParameter("q", keyword);
+        }
         uriBuilder.appendQueryParameter("o", String.valueOf(offset));
         String url = uriBuilder.build().toString();
 

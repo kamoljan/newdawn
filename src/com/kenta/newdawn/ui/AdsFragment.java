@@ -6,60 +6,50 @@
 
 package com.kenta.newdawn.ui;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.kenta.newdawn.R;
+import com.kenta.newdawn.adapter.ListAdArrayAdapter;
+import com.kenta.newdawn.io.AdsRequest;
+import com.kenta.newdawn.model.json.Ad;
+import com.kenta.newdawn.model.json.ListAds;
+import com.kenta.newdawn.service.AdsService;
 import com.kenta.newdawn.util.LogUtils;
-import com.novoda.imageloader.core.model.ImageTag;
-import com.novoda.imageloader.core.model.ImageTagFactory;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpRequestFactory;
-import org.codehaus.jackson.JsonFactory;
+import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.persistence.DurationInMillis;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
 
-
-import java.io.IOException;
-import java.util.List;
 
 public class AdsFragment extends SherlockListFragment {
 
     private static final String TAG = LogUtils.makeLogTag(AdsFragment.class);
 
-    final static String ARG_QUERY = "query";
-    String mQuery = null;
+    private ListAdArrayAdapter listAdArrayAdapter;
+    private SpiceManager spiceManagerJson = new SpiceManager(AdsService.class);
 
     private MultiColumnListView mListView = null;
-    private BoxAdapter mBoxAdapter = null;
 
-    static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-    static final JsonFactory JSON_FACTORY = new JacksonFactory();
+    final static String ARG_QUERY = "query";
+    protected String mQuery = null;
+    private int mOffset;
+    private int mFilteredAds;
 
-    private AdList mAdList;
-    private int mOffset = 0;  // http://...?&o=15
-    private int mFilteredAds = 0;
-
-    private static final int API_ADS_LIMIT = 10;
-    private static final String API_URL = "http://54.251.249.255:54321/api/v1/list.json";
-    private static final String API_KEY = "107d769b4e9c97c96433d85761c37834be6afdce";
+    private ListAds mListAds = null;
 
     protected boolean isLoading = false;
     boolean isOldFragment = false;
 
-
     // --------------------------------------------------------------------------------------------
     // FRAGMENT LIFECYCLE
     // --------------------------------------------------------------------------------------------
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -79,6 +69,19 @@ public class AdsFragment extends SherlockListFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        spiceManagerJson.start(getActivity());
+        spiceManagerJson.execute(new AdsRequest(mQuery, mOffset), "q", DurationInMillis.ONE_SECOND * 10, new ListAdsListener());
+    }
+
+    @Override
+    public void onStop() {
+        spiceManagerJson.shouldStop();
+        super.onStop();
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
@@ -89,12 +92,7 @@ public class AdsFragment extends SherlockListFragment {
     private void asyncListLoad(Boolean _isFresh) {
         isOldFragment = _isFresh;
         isLoading = true;
-        try {
-            LogUtils.LOGI(TAG, "Start: LoadAsyncTask()");
-            new LoadAsyncTask().execute();
-        } catch(Exception e) {
-            LogUtils.LOGE(TAG, "e = " + e.getMessage());
-        }
+        spiceManagerJson.execute(new AdsRequest(mQuery, mOffset), "q", DurationInMillis.ONE_SECOND * 10, new ListAdsListener());
     }
 
     @Override
@@ -108,7 +106,7 @@ public class AdsFragment extends SherlockListFragment {
             mQuery = args.getString(ARG_QUERY);
         }
 
-        mBoxAdapter = new BoxAdapter(getActivity());
+        listAdArrayAdapter = new ListAdArrayAdapter(getActivity());
 
         mListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
             @Override
@@ -129,10 +127,10 @@ public class AdsFragment extends SherlockListFragment {
                 if (isLoading)
                     return;
 
-                if (mBoxAdapter == null)
+                if (listAdArrayAdapter == null)
                     return;
 
-                final int count = mBoxAdapter.getCount();
+                final int count = listAdArrayAdapter.getCount();
                 if (count == 0)
                     return;
 
@@ -143,7 +141,7 @@ public class AdsFragment extends SherlockListFragment {
             }
         });
 
-        mListView.setAdapter(mBoxAdapter);
+        mListView.setAdapter(listAdArrayAdapter);
 
         asyncListLoad(true);
     }
@@ -152,189 +150,41 @@ public class AdsFragment extends SherlockListFragment {
     // --------------------------------------------------------------------------------------------
     // INNER CLASS
     // --------------------------------------------------------------------------------------------
-    private class BoxItem {
-        public String url;
+    private class ListAdsListener implements RequestListener<ListAds> {
 
-        public BoxItem(String imageUrl) {
-            this.url = imageUrl;
-        }
-
-        public String getUrl() {
-            return this.url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-    }
-
-    // --------------------------------------------------------------------------------------------
-    // INNER CLASS
-    // --------------------------------------------------------------------------------------------
-    public class BoxAdapter extends ArrayAdapter<BoxItem> {
-
-        private ImageTagFactory imageTagFactory = ImageTagFactory.newInstance();
-
-
-        public BoxAdapter(Context context) {
-            super(context, 0);
-
-            imageTagFactory.setHeight(500);
-            imageTagFactory.setWidth(500);
-            imageTagFactory.setDefaultImageResId(R.drawable.no_image);
-            imageTagFactory.setErrorImageId(R.drawable.ic_action_help);
-            //imageTagFactory.setAnimation(android.R.anim.slide_in_left);
-            //imageTagFactory.setAnimation(android.R.anim.fade_in);
-            imageTagFactory.setSaveThumbnail(true);
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_sample, null);
-            }
-            ImageView iv = (ImageView) convertView.findViewById(R.id.item_image);
-            ImageTag tag = imageTagFactory.build(getItem(position).getUrl().replace("thumbs", "images"), getContext());
-            //ImageTag tag = mTagFactory.build(res.getUrl().replace("images", "thumbs"), getContext());
-            iv.setTag(tag);
-            DawnApplication.getImageManager().getLoader().load(iv);
-
-            return convertView;
+        @Override
+        public void onRequestFailure(SpiceException spiceException) {
+            Toast.makeText(getListView().getContext(), "Something wrong", Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public BoxItem getItem(int position) {
-            return super.getItem(position);
-        }
-    }
-
-    /**
-     * {
-     *    ads: [
-     *        {
-     *           image: "http://54.251.249.255:20001/thumbs/04/0477901857.jpg",
-     *           subject: "Asdfasdfasdfasdfasdfasdf adsfasdfasdf",
-     *           category: "3040",
-     *           company_ad: "0",
-     *           list_id: "8000002",
-     *           price: "",
-     *           date: "Hari ini 02:56",
-     *           name: "naomi"
-     *       },
-     *       ..
-     *    ]
-     * }
-     */
-    /** Represents ad feed. */
-    public static class AdList {
-        @Key
-        public int filtered;
-
-        @Key
-        public List<Ad> ads;
-    }
-
-    /** Represents a ad. */
-    public static class Ad {
-        @Key
-        public String image;
-    }
-
-    /** API_URL for BAPY. */
-    public static class BapyUrl extends GenericUrl {
-        public BapyUrl(String encodedUrl) {
-            super(encodedUrl);
-        }
-
-        @Key
-        public String key;
-
-        @Key
-        public int o;  // offset
-
-        @Key
-        public int limit;
-
-        @Key
-        public int img = 1;
-
-        @Key
-        public String q;  // query
-
-        @Key
-        public String f = "p";  // private
-    }
-
-    private void run() throws Exception {
-        HttpRequestFactory requestFactory =
-                HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
-                    @Override
-                    public void initialize(HttpRequest httpRequest) throws IOException {
-                        httpRequest.setParser(new JsonObjectParser(JSON_FACTORY));
-                    }
-                });
-        BapyUrl url = new BapyUrl(API_URL);
-        url.key = API_KEY;
-        url.o = mOffset;
-        url.limit = API_ADS_LIMIT;
-        if (mQuery != null) {
-            url.q = mQuery;
-        }
-
-        HttpRequest request = requestFactory.buildGetRequest(url);
-        mAdList = request.execute().parseAs(AdList.class);
-        if (mAdList.ads.isEmpty()) {
-            LogUtils.LOGI(TAG, "No ListAds found.");
-        } else {
-            mFilteredAds = mAdList.filtered;
-            LogUtils.LOGI(TAG, "mFilteredAds = " + mFilteredAds);
-        }
-    }
-
-    private class LoadAsyncTask extends AsyncTask<Void, Integer, Long> {
-        // Do the long-running work in here
-        @Override
-        protected Long doInBackground(Void... unused) {
-            try {
-                try {
-                    run();
-                } catch (HttpResponseException e) {
-                    LogUtils.LOGE(TAG, "LaodAsyncTask e = " + e.getMessage());
-                }
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
-            return null;
-        }
-
-        // This is called each time you call publishProgress()
-        protected void onProgressUpdate(Integer... progress) {
-            // do nothing
-        }
-
-        // This is called when doInBackground() is finished
-        protected void onPostExecute(Long result) {
-            Toast.makeText(getListView().getContext(), "onPostExecute babe!!" , Toast.LENGTH_SHORT).show();
+        public void onRequestSuccess(ListAds result) {
+            Toast.makeText(getListView().getContext(), "onPostExecute babe!!", Toast.LENGTH_SHORT).show();
             addMore();
             isLoading = false;
             mQuery = null;
         }
     }
 
-    public void addMore() {
-        if (mAdList.ads == null)
+    // --------------------------------------------------------------------------------------------
+    // PRIVATE
+    // --------------------------------------------------------------------------------------------
+
+    private void addMore() {
+        if (mListAds.getResults() == null)
             return;
 
         if (isOldFragment) {
-            mBoxAdapter.clear();
-            mBoxAdapter.notifyDataSetChanged();
+            listAdArrayAdapter.clear();
+            listAdArrayAdapter.notifyDataSetChanged();
         }
 
-        for (Ad ad : mAdList.ads) {
-            BoxItem boxItem = new BoxItem(ad.image);
-            mBoxAdapter.add(boxItem);
-            mBoxAdapter.notifyDataSetChanged();
+        for (Ad ad : mListAds.getResults()) {
+            listAdArrayAdapter.add(ad);
+            listAdArrayAdapter.notifyDataSetChanged();
+            mFilteredAds = ad.getFiltered();
         }
 
-        mAdList.ads.clear();  // clear our list
+        //mListAds.getResults().clear();  // clear our list
     }
 }

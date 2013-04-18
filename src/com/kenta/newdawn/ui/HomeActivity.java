@@ -2,8 +2,6 @@ package com.kenta.newdawn.ui;
 
 import android.annotation.TargetApi;
 import android.app.SearchManager;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,7 +29,6 @@ public class HomeActivity extends BaseActivity implements
 
     private AdsFragment mAdsFragment;
     private ViewPager mViewPager;
-    private Menu mOptionsMenu;
     private String mQuery = null;
 
     // --------------------------------------------------------------------------------------------
@@ -172,7 +169,6 @@ public class HomeActivity extends BaseActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        mOptionsMenu = menu;
         getSupportMenuInflater().inflate(R.menu.home, menu);
 
         setupSearchMenuItem(menu);

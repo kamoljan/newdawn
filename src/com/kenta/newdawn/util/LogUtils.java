@@ -17,7 +17,7 @@
 package com.kenta.newdawn.util;
 
 import android.util.Log;
-import com.kenta.newdawn.BuildConfig;
+import com.actionbarsherlock.BuildConfig;
 
 /**
  * Helper methods that make logging more consistent throughout the app.
