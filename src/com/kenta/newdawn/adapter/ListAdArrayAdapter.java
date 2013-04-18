@@ -30,12 +30,13 @@ public class ListAdArrayAdapter extends ArrayAdapter<Ad> {
     }
 
     // TODO: where is ViewHolder?
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_sample, null);
         }
         ImageView iv = (ImageView) convertView.findViewById(R.id.item_image);
-        ImageTag tag = imageTagFactory.build(getItem(position).getImgUrl().replace("thumbs", "images"), getContext());
+        ImageTag tag = imageTagFactory.build(getItem(position).image.replace("thumbs", "images"), getContext());
         //ImageTag tag = mTagFactory.build(res.getUrl().replace("images", "thumbs"), getContext());
         iv.setTag(tag);
         NewDawnApplication.getImageManager().getLoader().load(iv);

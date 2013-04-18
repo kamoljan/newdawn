@@ -28,7 +28,6 @@ public class AdsRequest extends SpringAndroidSpiceRequest<ListAds> {
         }
         uriBuilder.appendQueryParameter("o", String.valueOf(offset));
         String url = uriBuilder.build().toString();
-
         return getRestTemplate().getForObject(url, ListAds.class);
     }
 

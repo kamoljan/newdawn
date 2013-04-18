@@ -51,17 +51,10 @@ public class HomeActivity extends BaseActivity implements
             mViewPager.setAdapter(new HomePagerAdapter(getSupportFragmentManager()));
             mViewPager.setOnPageChangeListener(this);
             mViewPager.setPageMarginDrawable(R.drawable.grey_border_inset_lr);
-            mViewPager.setPageMargin(getResources()
-                    .getDimensionPixelSize(R.dimen.page_margin_width));
-
+            mViewPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.page_margin_width));
             final ActionBar actionBar = getSupportActionBar();
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-            actionBar.addTab(actionBar.newTab()
-                    .setText(R.string.title_discover)
-                    .setTabListener(this));
-            actionBar.addTab(actionBar.newTab()
-                    .setText(R.string.title_sell)
-                    .setTabListener(this));
+            actionBar.addTab(actionBar.newTab().setText(R.string.title_discover).setTabListener(this));
         } else {
             mAdsFragment = (AdsFragment) fm.findFragmentById(R.id.fragment_discover);
         }
@@ -93,12 +86,12 @@ public class HomeActivity extends BaseActivity implements
 
     private AdsFragment handleDiscover2Fragment() {
         if (mAdsFragment != null) {
-            mAdsFragment.isOldFragment = true;
+            mAdsFragment.isAppending = true;
             mAdsFragment.mQuery = mQuery;
             return mAdsFragment;
         } else {
             // Create fragment and give it an argument for the search query
-            mAdsFragment  = new AdsFragment();
+            mAdsFragment = new AdsFragment();
             Bundle args = new Bundle();
             args.putString(AdsFragment.ARG_QUERY, mQuery);
             mAdsFragment.setArguments(args);
@@ -136,16 +129,12 @@ public class HomeActivity extends BaseActivity implements
             case 0:
                 titleId = R.string.title_discover;
                 break;
-            case 1:
-                titleId = R.string.title_sell;
-                break;
         }
         String title = getString(titleId);
     }
 
     @Override
-    public void onPageScrollStateChanged(int i) {
-    }
+    public void onPageScrollStateChanged(int i) {}
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -190,9 +179,7 @@ public class HomeActivity extends BaseActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         onSearchRequested();
-
         switch (item.getItemId()) {
             case R.id.menu_refresh:
                 handleDiscover2Fragment();
@@ -211,7 +198,6 @@ public class HomeActivity extends BaseActivity implements
     // --------------------------------------------------------------------------------------------
     // INNER CLASS
     // --------------------------------------------------------------------------------------------
-
     private class HomePagerAdapter extends FragmentPagerAdapter {
         public HomePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -222,16 +208,13 @@ public class HomeActivity extends BaseActivity implements
             switch (position) {
                 case 0:
                     return handleDiscover2Fragment();
-
-                case 1:
-                    return (mAdsFragment = new AdsFragment());
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 1;
         }
     }
 }

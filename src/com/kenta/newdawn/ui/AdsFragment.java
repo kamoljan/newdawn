@@ -45,7 +45,7 @@ public class AdsFragment extends SherlockListFragment {
     private ListAds mListAds = null;
 
     protected boolean isLoading = false;
-    boolean isOldFragment = false;
+    boolean isAppending = true;
 
     // --------------------------------------------------------------------------------------------
     // FRAGMENT LIFECYCLE
@@ -72,7 +72,8 @@ public class AdsFragment extends SherlockListFragment {
     public void onStart() {
         super.onStart();
         spiceManagerJson.start(getActivity());
-        spiceManagerJson.execute(new AdsRequest(mQuery, mOffset), "q", DurationInMillis.ONE_SECOND * 10, new ListAdsListener());
+        //spiceManagerJson.execute(new AdsRequest(mQuery, mOffset), "q", DurationInMillis.ONE_SECOND * 10, new ListAdsListener());
+        //asyncListLoad();
     }
 
     @Override
@@ -89,10 +90,9 @@ public class AdsFragment extends SherlockListFragment {
         outState.putString(ARG_QUERY, mQuery);
     }
 
-    private void asyncListLoad(Boolean _isFresh) {
-        isOldFragment = _isFresh;
+    private void asyncListLoad() {
         isLoading = true;
-        spiceManagerJson.execute(new AdsRequest(mQuery, mOffset), "q", DurationInMillis.ONE_SECOND * 10, new ListAdsListener());
+        spiceManagerJson.execute(new AdsRequest(mQuery, mOffset), "q", DurationInMillis.NEVER, new ListAdsListener());
     }
 
     @Override
@@ -101,7 +101,7 @@ public class AdsFragment extends SherlockListFragment {
         mOffset = 0;
 
         Bundle args = this.getArguments();
-        if (args != null & !isOldFragment) {
+        if (args != null & !isAppending) {
             // Set query based on argument passed in
             mQuery = args.getString(ARG_QUERY);
         }
@@ -136,14 +136,14 @@ public class AdsFragment extends SherlockListFragment {
 
                 if (firstVisibleItem + visibleItemCount >= count && mFilteredAds > count) {
                     mOffset += 10;  // increase offset of the page
-                    asyncListLoad(false);
+                    asyncListLoad();
                 }
             }
         });
 
         mListView.setAdapter(listAdArrayAdapter);
 
-        asyncListLoad(true);
+        asyncListLoad();
     }
 
 
@@ -159,8 +159,10 @@ public class AdsFragment extends SherlockListFragment {
 
         @Override
         public void onRequestSuccess(ListAds result) {
+            mListAds = result;
             Toast.makeText(getListView().getContext(), "onPostExecute babe!!", Toast.LENGTH_SHORT).show();
-            addMore();
+            mFilteredAds = mListAds.filtered;
+            append2Adapter();
             isLoading = false;
             mQuery = null;
         }
@@ -170,21 +172,21 @@ public class AdsFragment extends SherlockListFragment {
     // PRIVATE
     // --------------------------------------------------------------------------------------------
 
-    private void addMore() {
-        if (mListAds.getResults() == null)
+    /**
+     * Append new ad(s) to ListAdArrayAdapter
+     */
+    private void append2Adapter() {
+        if (mListAds.ads == null)
             return;
 
-        if (isOldFragment) {
+        if (!isAppending) {
             listAdArrayAdapter.clear();
-            listAdArrayAdapter.notifyDataSetChanged();
+            //listAdArrayAdapter.notifyDataSetChanged();
         }
-
-        for (Ad ad : mListAds.getResults()) {
+        for (Ad ad : mListAds.ads) {
             listAdArrayAdapter.add(ad);
-            listAdArrayAdapter.notifyDataSetChanged();
-            mFilteredAds = ad.getFiltered();
+            //listAdArrayAdapter.notifyDataSetChanged();
         }
-
-        //mListAds.getResults().clear();  // clear our list
+        mListAds.ads.clear();  // clear our list
     }
 }

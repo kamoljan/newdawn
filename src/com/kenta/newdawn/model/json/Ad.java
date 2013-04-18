@@ -5,7 +5,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Ad {
 
-    private String imgUrl;
+    public String image;
+    /*
     private int filtered;
 
     public int getFiltered() {
@@ -15,7 +16,9 @@ public class Ad {
     public void setFiltered(int filtered) {
         this.filtered = filtered;
     }
+    */
 
+    /*
     public String getImgUrl() {
         return imgUrl;
     }
@@ -23,5 +26,5 @@ public class Ad {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
-
+     */
 }

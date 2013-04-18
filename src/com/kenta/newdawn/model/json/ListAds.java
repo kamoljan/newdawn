@@ -24,13 +24,24 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ListAds {
 
-    private List<Ad> results;
+    public int filtered;
+    public List<Ad> ads;
+
+    /*
+    public int getFiltered() {
+        return filtered;
+    }
+
+    public void setFiltered(int filtered) {
+        this.filtered = filtered;
+    }
 
     public List<Ad> getResults() {
         return results;
     }
 
     public void setResults(List<Ad> results) {
-
+        this.results = results;
     }
+    */
 }
