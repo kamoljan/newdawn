@@ -3,23 +3,23 @@ package com.kenta.newdawn.io;
 import android.net.Uri;
 
 import com.kenta.newdawn.Config;
-import com.kenta.newdawn.model.json.ListAds;
+import com.kenta.newdawn.model.json.ListAd;
 import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
 
-public class AdsRequest extends SpringAndroidSpiceRequest<ListAds> {
+public class ListAdRequest extends SpringAndroidSpiceRequest<ListAd> {
 
     private String keyword;
     private int offset;
     private int limit = 0;
 
-    public AdsRequest(String keyword, int offset) {
-        super(ListAds.class);
+    public ListAdRequest(String keyword, int offset) {
+        super(ListAd.class);
         this.keyword = keyword;
         this.offset = offset;
     }
 
     @Override
-    public ListAds loadDataFromNetwork() throws Exception {
+    public ListAd loadDataFromNetwork() throws Exception {
 
         // With Uri.Builder class we can build our url is a safe manner
         Uri.Builder uriBuilder = Uri.parse(Config.GET_APY_LIST_URL).buildUpon();
@@ -28,7 +28,7 @@ public class AdsRequest extends SpringAndroidSpiceRequest<ListAds> {
         }
         uriBuilder.appendQueryParameter("o", String.valueOf(offset));
         String url = uriBuilder.build().toString();
-        return getRestTemplate().getForObject(url, ListAds.class);
+        return getRestTemplate().getForObject(url, ListAd.class);
     }
 
     /**

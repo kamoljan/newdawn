@@ -22,7 +22,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  * }
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ListAds {
+public class ListAd {
 
     public int filtered;
     public List<Ad> ads;

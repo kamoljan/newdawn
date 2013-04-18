@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Dawn Service
  */
-public class AdsService extends JacksonSpringAndroidSpiceService {
+public class ListAdService extends JacksonSpringAndroidSpiceService {
 
     /**
      * Timeout when calling a web service (in ms).

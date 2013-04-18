@@ -23,7 +23,7 @@
                  android:layout_weight="1"
                  android:layout_margin="@dimen/multipane_half_padding"
                  android:background="@drawable/grey_frame">
-        <fragment android:name="com.kenta.newdawn.ui.AdsFragment"
+        <fragment android:name="com.kenta.newdawn.ui.ListAdFragment"
                   android:id="@+id/fragment_discover"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent" />

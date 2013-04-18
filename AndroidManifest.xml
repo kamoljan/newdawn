@@ -34,7 +34,7 @@
 
 
         <service
-            android:name=".service.AdsService"
+            android:name=".service.ListAdService"
             android:exported="false" />
     </application>
 

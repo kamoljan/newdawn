@@ -36,6 +36,7 @@ public class ListAdArrayAdapter extends ArrayAdapter<Ad> {
      *
      * <a href="ttp://developer.android.com/training/improving-layouts/smooth-scrolling.html#ViewHolder">See doc</a>
      */
+
     static class ViewHolder {
         ImageView iv;
         ImageTag it;

@@ -27,7 +27,7 @@ public class HomeActivity extends BaseActivity implements
 
     private static final String TAG = LogUtils.makeLogTag(HomeActivity.class);
 
-    private AdsFragment mAdsFragment;
+    private ListAdFragment mListAdFragment;
     private ViewPager mViewPager;
     private String mQuery = null;
 
@@ -56,7 +56,7 @@ public class HomeActivity extends BaseActivity implements
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
             actionBar.addTab(actionBar.newTab().setText(R.string.title_discover).setTabListener(this));
         } else {
-            mAdsFragment = (AdsFragment) fm.findFragmentById(R.id.fragment_discover);
+            mListAdFragment = (ListAdFragment) fm.findFragmentById(R.id.fragment_discover);
         }
         getSupportActionBar().setHomeButtonEnabled(false);
 
@@ -84,18 +84,18 @@ public class HomeActivity extends BaseActivity implements
         }
     }
 
-    private AdsFragment handleDiscover2Fragment() {
-        if (mAdsFragment != null) {
-            mAdsFragment.isAppending = true;
-            mAdsFragment.mQuery = mQuery;
-            return mAdsFragment;
+    private ListAdFragment handleDiscover2Fragment() {
+        if (mListAdFragment != null) {
+            mListAdFragment.isAppending = true;
+            mListAdFragment.mQuery = mQuery;
+            return mListAdFragment;
         } else {
             // Create fragment and give it an argument for the search query
-            mAdsFragment = new AdsFragment();
+            mListAdFragment = new ListAdFragment();
             Bundle args = new Bundle();
-            args.putString(AdsFragment.ARG_QUERY, mQuery);
-            mAdsFragment.setArguments(args);
-            return mAdsFragment;
+            args.putString(ListAdFragment.ARG_QUERY, mQuery);
+            mListAdFragment.setArguments(args);
+            return mListAdFragment;
         }
     }
 

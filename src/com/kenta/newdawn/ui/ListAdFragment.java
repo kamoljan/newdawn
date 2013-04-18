@@ -17,10 +17,10 @@ import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.kenta.newdawn.R;
 import com.kenta.newdawn.adapter.ListAdArrayAdapter;
-import com.kenta.newdawn.io.AdsRequest;
+import com.kenta.newdawn.io.ListAdRequest;
 import com.kenta.newdawn.model.json.Ad;
-import com.kenta.newdawn.model.json.ListAds;
-import com.kenta.newdawn.service.AdsService;
+import com.kenta.newdawn.model.json.ListAd;
+import com.kenta.newdawn.service.ListAdService;
 import com.kenta.newdawn.util.LogUtils;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -28,12 +28,12 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 
-public class AdsFragment extends SherlockListFragment {
+public class ListAdFragment extends SherlockListFragment {
 
-    private static final String TAG = LogUtils.makeLogTag(AdsFragment.class);
+    private static final String TAG = LogUtils.makeLogTag(ListAdFragment.class);
 
     private ListAdArrayAdapter listAdArrayAdapter;
-    private SpiceManager spiceManagerJson = new SpiceManager(AdsService.class);
+    private SpiceManager spiceManagerJson = new SpiceManager(ListAdService.class);
 
     private MultiColumnListView mListView = null;
 
@@ -42,7 +42,7 @@ public class AdsFragment extends SherlockListFragment {
     private int mOffset;
     private int mFilteredAds;
 
-    private ListAds mListAds = null;
+    private ListAd mListAds = null;
 
     protected boolean isLoading = false;
     boolean isAppending = true;
@@ -72,7 +72,7 @@ public class AdsFragment extends SherlockListFragment {
     public void onStart() {
         super.onStart();
         spiceManagerJson.start(getActivity());
-        //spiceManagerJson.execute(new AdsRequest(mQuery, mOffset), "q", DurationInMillis.ONE_SECOND * 10, new ListAdsListener());
+        //spiceManagerJson.execute(new ListAdRequest(mQuery, mOffset), "q", DurationInMillis.ONE_SECOND * 10, new ListAdsListener());
         //asyncListLoad();
     }
 
@@ -92,7 +92,7 @@ public class AdsFragment extends SherlockListFragment {
 
     private void asyncListLoad() {
         isLoading = true;
-        spiceManagerJson.execute(new AdsRequest(mQuery, mOffset), "q", DurationInMillis.NEVER, new ListAdsListener());
+        spiceManagerJson.execute(new ListAdRequest(mQuery, mOffset), "q", DurationInMillis.NEVER, new ListAdsListener());
     }
 
     @Override
@@ -150,7 +150,7 @@ public class AdsFragment extends SherlockListFragment {
     // --------------------------------------------------------------------------------------------
     // INNER CLASS
     // --------------------------------------------------------------------------------------------
-    private class ListAdsListener implements RequestListener<ListAds> {
+    private class ListAdsListener implements RequestListener<ListAd> {
 
         @Override
         public void onRequestFailure(SpiceException spiceException) {
@@ -158,7 +158,7 @@ public class AdsFragment extends SherlockListFragment {
         }
 
         @Override
-        public void onRequestSuccess(ListAds result) {
+        public void onRequestSuccess(ListAd result) {
             mListAds = result;
             Toast.makeText(getListView().getContext(), "onPostExecute babe!!", Toast.LENGTH_SHORT).show();
             mFilteredAds = mListAds.filtered;
