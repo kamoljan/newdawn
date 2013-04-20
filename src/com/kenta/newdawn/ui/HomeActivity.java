@@ -200,9 +200,9 @@ public class HomeActivity extends BaseActivity implements
     // --------------------------------------------------------------------------------------------
     // PUBLIC
     // --------------------------------------------------------------------------------------------
-    public void onAdSelected(int position) {
+    public void onAdSelected(String _list_id) {
         // The user selected the ad from ListAdFragment
-
+        /*
         // Capture the DetailAdFragment from the activity layout
         DetailAdFragment detailAdFragment = (DetailAdFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_detail_ad_fragment);
@@ -229,14 +229,18 @@ public class HomeActivity extends BaseActivity implements
 
             // Commit the transaction
             transaction.commit();
-
         }
+        */
 
     }
 
     // --------------------------------------------------------------------------------------------
     // INNER CLASS
     // --------------------------------------------------------------------------------------------
+    /*
+     * TODO: read it and use it
+     * http://tamsler.blogspot.sg/2011/10/android-viewpager-and-fragments.html 
+     */
     private class HomePagerAdapter extends FragmentPagerAdapter {
         public HomePagerAdapter(FragmentManager fm) {
             super(fm);

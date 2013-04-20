@@ -13,6 +13,8 @@ public class NewDawnApplication extends Application {
      */
     private static ImageManager sImageManager;
 
+    public static int sListId;
+
     @Override
     public void onCreate() {
         super.onCreate();

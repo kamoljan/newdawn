@@ -6,25 +6,6 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class Ad {
 
     public String image;
-    /*
-    private int filtered;
+    public String list_id;
 
-    public int getFiltered() {
-        return filtered;
-    }
-
-    public void setFiltered(int filtered) {
-        this.filtered = filtered;
-    }
-    */
-
-    /*
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-     */
 }

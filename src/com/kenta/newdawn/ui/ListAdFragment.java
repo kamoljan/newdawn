@@ -33,8 +33,6 @@ public class ListAdFragment extends SherlockListFragment {
 
     private static final String TAG = LogUtils.makeLogTag(ListAdFragment.class);
 
-    OnListAdSelectedListener mCallback;
-
     private ListAdArrayAdapter listAdArrayAdapter;
     private SpiceManager spiceManagerJson = new SpiceManager(ListAdService.class);
 
@@ -50,12 +48,14 @@ public class ListAdFragment extends SherlockListFragment {
     protected boolean isLoading = false;
     boolean isAppending = true;
 
-    // The HomeActivity must implement this interface so the fragment can deliver params
+    OnListAdSelectedListener mCallback;
+    
+    // The ListAdActivity must implement this interface so the fragment can deliver params
     public interface OnListAdSelectedListener {
         /**
          * Called by ListAdFragment when a list item is selected
          */
-        public void onAdSelected(int position);
+        public void onAdSelected(String list_id);
     }
 
     // --------------------------------------------------------------------------------------------
@@ -137,7 +137,8 @@ public class ListAdFragment extends SherlockListFragment {
                 Toast.makeText(getListView().getContext(), position + "", Toast.LENGTH_SHORT).show();
 
                 // Notify the parent activity of selected item
-                mCallback.onAdSelected(position);
+
+                mCallback.onAdSelected(listAdArrayAdapter.getItem(position).list_id);
             }
         });
 
@@ -216,3 +217,19 @@ public class ListAdFragment extends SherlockListFragment {
         mListAds.ads.clear();  // clear our list
     }
 }
+
+/*
+public class StaticAd {
+    int list_id;
+    String image;
+    String subject;
+    String body;
+    String category;
+    String company_ad;
+    String price;
+    String date;
+    String name;
+    String phone;
+}
+
+*/

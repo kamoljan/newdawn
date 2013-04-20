@@ -1,6 +1,5 @@
 package com.kenta.newdawn.ui;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +9,8 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.kenta.newdawn.R;
 
 public class DetailAdFragment extends SherlockFragment {
-    final static String ARG_POSITION = "position";
-    int mCurrentPosition = -1;
+    final static String ARG_LIST_ID = "list_id";
+    String mCurrentListId = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -20,7 +19,7 @@ public class DetailAdFragment extends SherlockFragment {
         // the previous article selection set by onSaveInstanceState().
         // This is primarily necessary when in the two-pane layout.
         if (savedInstanceState != null) {
-            mCurrentPosition = savedInstanceState.getInt(ARG_POSITION);
+        	mCurrentListId = savedInstanceState.getString(ARG_LIST_ID);
         }
 
         // Inflate the layout for this fragment
@@ -38,24 +37,24 @@ public class DetailAdFragment extends SherlockFragment {
         Bundle args = getArguments();
         if (args != null) {
             // Set article based on argument passed in
-            updateAdView(args.getInt(ARG_POSITION));
-        } else if (mCurrentPosition != -1) {
+            updateAdView(args.getString(ARG_LIST_ID));
+        } else if (mCurrentListId != null) {
             // Set article based on saved instance state defined during onCreateView
-            updateAdView(mCurrentPosition);
+            updateAdView(mCurrentListId);
         }
     }
 
-    public void updateAdView(int position) {
+    public void updateAdView(String _list_id) {
         TextView article = (TextView) getActivity().findViewById(R.id.article);
-        article.setText(position);
-        mCurrentPosition = position;
+        article.setText(_list_id);
+        mCurrentListId = _list_id;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        // Save the current article selection in case we need to recreate the fragment
-        outState.putInt(ARG_POSITION, mCurrentPosition);
+        // Save the current ad selection in case we need to recreate the fragment
+        outState.putString(ARG_LIST_ID, mCurrentListId);
     }
 }

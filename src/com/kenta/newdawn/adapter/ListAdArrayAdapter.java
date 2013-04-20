@@ -31,9 +31,7 @@ public class ListAdArrayAdapter extends ArrayAdapter<Ad> {
     }
 
     /**
-     *
      * Improve {@link android.widget.ListView} performance while scrolling<br/>
-     *
      * <a href="ttp://developer.android.com/training/improving-layouts/smooth-scrolling.html#ViewHolder">See doc</a>
      */
 
