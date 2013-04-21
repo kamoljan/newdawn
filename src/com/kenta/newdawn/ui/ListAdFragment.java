@@ -19,8 +19,9 @@ import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.kenta.newdawn.R;
 import com.kenta.newdawn.adapter.ListAdArrayAdapter;
 import com.kenta.newdawn.io.ListAdRequest;
-import com.kenta.newdawn.model.json.Ad;
+import com.kenta.newdawn.model.json.HolderAd;
 import com.kenta.newdawn.model.json.ListAd;
+import com.kenta.newdawn.model.json.ParcelableAd;
 import com.kenta.newdawn.service.ListAdService;
 import com.kenta.newdawn.util.LogUtils;
 import com.octo.android.robospice.SpiceManager;
@@ -55,7 +56,7 @@ public class ListAdFragment extends SherlockListFragment {
         /**
          * Called by ListAdFragment when a list item is selected
          */
-        public void onAdSelected(String list_id);
+        public void onAdSelected(ParcelableAd ad);
     }
 
     // --------------------------------------------------------------------------------------------
@@ -138,7 +139,7 @@ public class ListAdFragment extends SherlockListFragment {
 
                 // Notify the parent activity of selected item
 
-                mCallback.onAdSelected(listAdArrayAdapter.getItem(position).list_id);
+                mCallback.onAdSelected(listAdArrayAdapter.getItem(position));
             }
         });
 
@@ -210,26 +211,11 @@ public class ListAdFragment extends SherlockListFragment {
             listAdArrayAdapter.clear();
             //listAdArrayAdapter.notifyDataSetChanged();
         }
-        for (Ad ad : mListAds.ads) {
+        for (ParcelableAd ad : mListAds.ads) {
             listAdArrayAdapter.add(ad);
             //listAdArrayAdapter.notifyDataSetChanged();
         }
         mListAds.ads.clear();  // clear our list
     }
-}
-
-/*
-public class StaticAd {
-    int list_id;
-    String image;
-    String subject;
-    String body;
-    String category;
-    String company_ad;
-    String price;
-    String date;
-    String name;
-    String phone;
-}
-
-*/
+    
+}  // class end

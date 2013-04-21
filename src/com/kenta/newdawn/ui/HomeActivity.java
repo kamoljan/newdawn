@@ -23,8 +23,7 @@ import com.kenta.newdawn.util.UIUtils;
  */
 public class HomeActivity extends BaseActivity implements
         ActionBar.TabListener,
-        ViewPager.OnPageChangeListener,
-        ListAdFragment.OnListAdSelectedListener {
+        ViewPager.OnPageChangeListener {
 
     private static final String TAG = LogUtils.makeLogTag(HomeActivity.class);
 
@@ -200,39 +199,6 @@ public class HomeActivity extends BaseActivity implements
     // --------------------------------------------------------------------------------------------
     // PUBLIC
     // --------------------------------------------------------------------------------------------
-    public void onAdSelected(String _list_id) {
-        // The user selected the ad from ListAdFragment
-        /*
-        // Capture the DetailAdFragment from the activity layout
-        DetailAdFragment detailAdFragment = (DetailAdFragment)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_detail_ad_fragment);
-
-        if (detailAdFragment != null) {
-            // If article frag is available, we're in two-pane layout...
-
-            // Call a method in the ArticleFragment to update its content
-            detailAdFragment.updateAdView(position);
-        } else {
-            // If the frag is not available, we're in the one-pane layout and must swap frags...
-
-            // Create fragment and give it an argument for the selected article
-            DetailAdFragment newFragment = new DetailAdFragment();
-            Bundle args = new Bundle();
-            args.putInt(detailAdFragment.ARG_POSITION, position);
-            newFragment.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.fragment_container, newFragment);
-            transaction.addToBackStack(null);
-
-            // Commit the transaction
-            transaction.commit();
-        }
-        */
-
-    }
 
     // --------------------------------------------------------------------------------------------
     // INNER CLASS

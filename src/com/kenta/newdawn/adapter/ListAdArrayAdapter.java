@@ -8,11 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import com.kenta.newdawn.NewDawnApplication;
 import com.kenta.newdawn.R;
-import com.kenta.newdawn.model.json.Ad;
+import com.kenta.newdawn.model.json.HolderAd;
+import com.kenta.newdawn.model.json.ParcelableAd;
 import com.novoda.imageloader.core.model.ImageTag;
 import com.novoda.imageloader.core.model.ImageTagFactory;
 
-public class ListAdArrayAdapter extends ArrayAdapter<Ad> {
+public class ListAdArrayAdapter extends ArrayAdapter<ParcelableAd> {
 
     private ImageTagFactory imageTagFactory = ImageTagFactory.newInstance();
 
@@ -50,7 +51,7 @@ public class ListAdArrayAdapter extends ArrayAdapter<Ad> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.it = imageTagFactory.build(getItem(position).image.replace("thumbs", "images"), getContext());
+        viewHolder.it = imageTagFactory.build(getItem(position).getImage().replace("thumbs", "images"), getContext());
         viewHolder.iv.setTag(viewHolder.it);
         NewDawnApplication.getImageManager().getLoader().load(viewHolder.iv);
 
@@ -59,7 +60,7 @@ public class ListAdArrayAdapter extends ArrayAdapter<Ad> {
 
 
     @Override
-    public Ad getItem(int position) {
+    public ParcelableAd getItem(int position) {
         return super.getItem(position);
     }
 }

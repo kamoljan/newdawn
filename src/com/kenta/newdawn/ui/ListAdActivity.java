@@ -9,6 +9,8 @@ import android.widget.SearchView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.kenta.newdawn.R;
+import com.kenta.newdawn.model.json.HolderAd;
+import com.kenta.newdawn.model.json.ParcelableAd;
 import com.kenta.newdawn.util.LogUtils;
 import com.kenta.newdawn.util.UIUtils;
 
@@ -79,13 +81,13 @@ public class ListAdActivity extends BaseActivity implements
 	// --------------------------------------------------------------------------------------------
 	// PUBLIC
 	// --------------------------------------------------------------------------------------------
-	public void onAdSelected(String _list_id) {
+	public void onAdSelected(ParcelableAd _ad) {
 		// The user selected the ad from ListAdFragment
 
 		// Create fragment and give it an argument for the selected article
 		DetailAdFragment detailAdFragment = new DetailAdFragment();
 		Bundle args = new Bundle();
-		args.putString(detailAdFragment.ARG_LIST_ID, _list_id);
+		args.putParcelable(DetailAdFragment.ARG_PARCELABLE_AD, _ad);
 		detailAdFragment.setArguments(args);
 		FragmentTransaction transaction = getSupportFragmentManager()
 				.beginTransaction();
@@ -100,4 +102,5 @@ public class ListAdActivity extends BaseActivity implements
 		// Commit the transaction
 		transaction.commit();
 	}
+
 } // class end

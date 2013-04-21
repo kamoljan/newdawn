@@ -25,23 +25,6 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class ListAd {
 
     public int filtered;
-    public List<Ad> ads;
-
-    /*
-    public int getFiltered() {
-        return filtered;
-    }
-
-    public void setFiltered(int filtered) {
-        this.filtered = filtered;
-    }
-
-    public List<Ad> getResults() {
-        return results;
-    }
-
-    public void setResults(List<Ad> results) {
-        this.results = results;
-    }
-    */
+    public List<ParcelableAd> ads;
+    
 }
