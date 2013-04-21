@@ -19,7 +19,6 @@ import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.kenta.newdawn.R;
 import com.kenta.newdawn.adapter.ListAdArrayAdapter;
 import com.kenta.newdawn.io.ListAdRequest;
-import com.kenta.newdawn.model.json.HolderAd;
 import com.kenta.newdawn.model.json.ListAd;
 import com.kenta.newdawn.model.json.ParcelableAd;
 import com.kenta.newdawn.service.ListAdService;
@@ -28,7 +27,6 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
-
 
 public class ListAdFragment extends SherlockListFragment {
 

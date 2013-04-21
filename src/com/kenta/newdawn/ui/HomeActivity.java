@@ -109,16 +109,13 @@ public class HomeActivity extends BaseActivity implements
     }
 
     @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
 
     @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
 
     @Override
-    public void onPageScrolled(int i, float v, int i1) {
-    }
+    public void onPageScrolled(int i, float v, int i1) {}
 
     @Override
     public void onPageSelected(int position) {

@@ -5,15 +5,21 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.kenta.newdawn.NewDawnApplication;
 import com.kenta.newdawn.R;
 import com.kenta.newdawn.model.json.HolderAd;
 import com.kenta.newdawn.model.json.ParcelableAd;
+import com.novoda.imageloader.core.model.ImageTag;
+import com.novoda.imageloader.core.model.ImageTagFactory;
 
 public class DetailAdFragment extends SherlockFragment {
     final static String ARG_PARCELABLE_AD = "ad";
     ParcelableAd mCurrentAd = null;
+    
+    private ImageTagFactory imageTagFactory = ImageTagFactory.newInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,8 +31,17 @@ public class DetailAdFragment extends SherlockFragment {
         	mCurrentAd = savedInstanceState.getParcelable(ARG_PARCELABLE_AD);
         }
 
+        // ImageLoader
+        imageTagFactory.setHeight(500);
+        imageTagFactory.setWidth(500);
+        imageTagFactory.setDefaultImageResId(R.drawable.no_image);
+        imageTagFactory.setErrorImageId(R.drawable.ic_launcher);
+        //imageTagFactory.setAnimation(android.R.anim.slide_in_left);
+        //imageTagFactory.setAnimation(android.R.anim.fade_in);
+        //imageTagFactory.setSaveThumbnail(true);
+        
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.ad_view, container, false);
+        return inflater.inflate(R.layout.fragment_detail_ad, container, false);
     }
 
     @Override
@@ -67,7 +82,12 @@ public class DetailAdFragment extends SherlockFragment {
         tv_name.setText(_ad.getName());
         
         TextView tv_phone = (TextView) getActivity().findViewById(R.id.tv_phone);
-        tv_phone.setText(_ad.getPhone());        
+        tv_phone.setText(_ad.getPhone());
+        
+        ImageView iv_image = (ImageView) getActivity().findViewById(R.id.iv_image);
+        ImageTag it_image = imageTagFactory.build(_ad.getImage().replace("thumbs", "images"), getActivity().getApplicationContext());
+        iv_image.setTag(it_image);
+        NewDawnApplication.getImageManager().getLoader().load(iv_image);
         
         mCurrentAd = _ad;
     }
