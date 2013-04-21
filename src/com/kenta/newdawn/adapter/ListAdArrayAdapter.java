@@ -26,7 +26,7 @@ public class ListAdArrayAdapter extends ArrayAdapter<ParcelableAd> {
         imageTagFactory.setWidth(500);
         imageTagFactory.setDefaultImageResId(R.drawable.no_image);
         imageTagFactory.setErrorImageId(R.drawable.ic_launcher);
-        imageTagFactory.setAnimation(android.R.anim.slide_in_left);
+        //imageTagFactory.setAnimation(android.R.anim.slide_in_left);
         //imageTagFactory.setAnimation(android.R.anim.fade_in);
         imageTagFactory.setSaveThumbnail(true);
     }

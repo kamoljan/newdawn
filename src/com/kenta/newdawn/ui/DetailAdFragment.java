@@ -32,13 +32,13 @@ public class DetailAdFragment extends SherlockFragment {
         }
 
         // ImageLoader
-        imageTagFactory.setHeight(500);
-        imageTagFactory.setWidth(500);
+        imageTagFactory.setHeight(100);
+        imageTagFactory.setWidth(100);
         imageTagFactory.setDefaultImageResId(R.drawable.no_image);
         imageTagFactory.setErrorImageId(R.drawable.ic_launcher);
         //imageTagFactory.setAnimation(android.R.anim.slide_in_left);
         //imageTagFactory.setAnimation(android.R.anim.fade_in);
-        //imageTagFactory.setSaveThumbnail(true);
+        imageTagFactory.setSaveThumbnail(true);
         
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_detail_ad, container, false);
