@@ -82,8 +82,15 @@ public class ListAdFragment extends SherlockListFragment {
     public void onStart() {
         super.onStart();
         spiceManagerJson.start(getActivity());
+    }
 
-        updateListView();
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        setListAdListView();
+        isLoading = true;
+        spiceManagerJson.execute(new ListAdRequest(mQuery, mOffset), "q", DurationInMillis.NEVER, new ListAdsListener());
     }
 
     @Override
@@ -114,12 +121,6 @@ public class ListAdFragment extends SherlockListFragment {
         outState.putString(ARG_QUERY, mQuery);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-
     // --------------------------------------------------------------------------------------------
     // INNER CLASS
     // --------------------------------------------------------------------------------------------
@@ -144,14 +145,8 @@ public class ListAdFragment extends SherlockListFragment {
     // --------------------------------------------------------------------------------------------
     // PRIVATE
     // --------------------------------------------------------------------------------------------
-    private void updateListView() {
+    private void setListAdListView() {
         mOffset = 0;
-
-        Bundle args = this.getArguments();
-        if (args != null & !isAppending) {
-            // Set query based on argument passed in
-            mQuery = args.getString(ARG_QUERY);
-        }
 
         listAdArrayAdapter = new ListAdArrayAdapter(getActivity());
 
@@ -161,7 +156,6 @@ public class ListAdFragment extends SherlockListFragment {
                 Toast.makeText(getListView().getContext(), position + "", Toast.LENGTH_SHORT).show();
 
                 // Notify the parent activity of selected item
-
                 mCallback.onAdSelected(listAdArrayAdapter.getItem(position));
             }
         });
@@ -187,19 +181,13 @@ public class ListAdFragment extends SherlockListFragment {
 
                 if (firstVisibleItem + visibleItemCount >= count && mFilteredAds > count) {
                     mOffset += 10;  // increase offset of the page
-                    asyncListLoad();
+                    isLoading = true;
+                    spiceManagerJson.execute(new ListAdRequest(mQuery, mOffset), "q", DurationInMillis.NEVER, new ListAdsListener());
                 }
             }
         });
 
         mListView.setAdapter(listAdArrayAdapter);
-
-        asyncListLoad();
-    }
-
-    private void asyncListLoad() {
-        isLoading = true;
-        spiceManagerJson.execute(new ListAdRequest(mQuery, mOffset), "q", DurationInMillis.NEVER, new ListAdsListener());
     }
 
     /**

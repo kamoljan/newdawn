@@ -2,6 +2,7 @@ package com.kenta.newdawn.ui;
 
 import android.annotation.TargetApi;
 import android.app.SearchManager;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -24,7 +25,7 @@ public class ListAdActivity extends BaseActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_list_ad);
+		setContentView(R.layout.fragment_container);
 
 		if (isFinishing()) {
 			return;
@@ -80,6 +81,7 @@ public class ListAdActivity extends BaseActivity implements
 	// --------------------------------------------------------------------------------------------
 	// PUBLIC
 	// --------------------------------------------------------------------------------------------
+    /*
 	public void onAdSelected(ParcelableAd _ad) {
 		// The user selected the ad from ListAdFragment
 
@@ -101,5 +103,10 @@ public class ListAdActivity extends BaseActivity implements
 		// Commit the transaction
 		transaction.commit();
 	}
+	*/
+    public void onAdSelected(ParcelableAd _ad) {
+        Intent intent = DetailAdActivity.newInstance(this, _ad);
+        startActivity(intent);
+    }
 
 } // class end

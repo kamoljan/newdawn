@@ -8,4 +8,10 @@
 
     <string name="search_label">New Down Ads</string>
     <string name="search_hint">Search Ads</string>
+
+    <!-- DetailAd -->
+    <string name="detail_ad_menu_call">Call</string>
+    <string name="detail_ad_menu_sms">SMS</string>
+    <string name="detail_ad_menu_email">Email</string>
+
 </resources>

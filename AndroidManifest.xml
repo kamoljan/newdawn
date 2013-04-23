@@ -4,14 +4,14 @@
           android:versionCode="1"
           android:versionName="1.0">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <uses-sdk
             android:minSdkVersion="7"
-            android:targetSdkVersion="17" />
+            android:targetSdkVersion="17"/>
 
     <application
             android:label="@string/app_name"
@@ -24,11 +24,11 @@
                 android:label="@string/app_name"
                 android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-		
+
         <!--
         <activity
                 android:name="com.kenta.newdawn.ui.HomeActivity"
@@ -44,11 +44,13 @@
         </activity>
 		-->
         <service
-            android:name=".service.ListAdService"
-            android:exported="false" />
+                android:name=".service.ListAdService"
+                android:exported="false"/>
 
+        <!-- http://developer.android.com/guide/topics/ui/actionbar.html#SplitBar -->
         <activity
                 android:name="com.kenta.newdawn.ui.DetailAdActivity"
+                android:uiOptions="splitActionBarWhenNarrow"
                 android:label="@string/app_name"
                 android:launchMode="singleTop">
         </activity>
