@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import com.kenta.newdawn.NewDawnApplication;
 import com.kenta.newdawn.R;
-import com.kenta.newdawn.model.json.HolderAd;
 import com.kenta.newdawn.model.json.ParcelableAd;
 import com.novoda.imageloader.core.model.ImageTag;
 import com.novoda.imageloader.core.model.ImageTagFactory;

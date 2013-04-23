@@ -82,6 +82,8 @@ public class ListAdFragment extends SherlockListFragment {
     public void onStart() {
         super.onStart();
         spiceManagerJson.start(getActivity());
+
+        updateListView();
     }
 
     @Override
@@ -112,14 +114,37 @@ public class ListAdFragment extends SherlockListFragment {
         outState.putString(ARG_QUERY, mQuery);
     }
 
-    private void asyncListLoad() {
-        isLoading = true;
-        spiceManagerJson.execute(new ListAdRequest(mQuery, mOffset), "q", DurationInMillis.NEVER, new ListAdsListener());
-    }
-
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+
+    // --------------------------------------------------------------------------------------------
+    // INNER CLASS
+    // --------------------------------------------------------------------------------------------
+    private class ListAdsListener implements RequestListener<ListAd> {
+
+        @Override
+        public void onRequestFailure(SpiceException spiceException) {
+            Toast.makeText(getListView().getContext(), "Something wrong", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onRequestSuccess(ListAd result) {
+            mListAds = result;
+            Toast.makeText(getListView().getContext(), "onPostExecute babe!!", Toast.LENGTH_SHORT).show();
+            mFilteredAds = mListAds.filtered;
+            append2Adapter();
+            isLoading = false;
+            mQuery = null;
+        }
+    }
+
+    // --------------------------------------------------------------------------------------------
+    // PRIVATE
+    // --------------------------------------------------------------------------------------------
+    private void updateListView() {
         mOffset = 0;
 
         Bundle args = this.getArguments();
@@ -172,31 +197,10 @@ public class ListAdFragment extends SherlockListFragment {
         asyncListLoad();
     }
 
-
-    // --------------------------------------------------------------------------------------------
-    // INNER CLASS
-    // --------------------------------------------------------------------------------------------
-    private class ListAdsListener implements RequestListener<ListAd> {
-
-        @Override
-        public void onRequestFailure(SpiceException spiceException) {
-            Toast.makeText(getListView().getContext(), "Something wrong", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onRequestSuccess(ListAd result) {
-            mListAds = result;
-            Toast.makeText(getListView().getContext(), "onPostExecute babe!!", Toast.LENGTH_SHORT).show();
-            mFilteredAds = mListAds.filtered;
-            append2Adapter();
-            isLoading = false;
-            mQuery = null;
-        }
+    private void asyncListLoad() {
+        isLoading = true;
+        spiceManagerJson.execute(new ListAdRequest(mQuery, mOffset), "q", DurationInMillis.NEVER, new ListAdsListener());
     }
-
-    // --------------------------------------------------------------------------------------------
-    // PRIVATE
-    // --------------------------------------------------------------------------------------------
 
     /**
      * Append new ad(s) to ListAdArrayAdapter
@@ -207,11 +211,10 @@ public class ListAdFragment extends SherlockListFragment {
 
         if (!isAppending) {
             listAdArrayAdapter.clear();
-            //listAdArrayAdapter.notifyDataSetChanged();
         }
+
         for (ParcelableAd ad : mListAds.ads) {
             listAdArrayAdapter.add(ad);
-            //listAdArrayAdapter.notifyDataSetChanged();
         }
         mListAds.ads.clear();  // clear our list
     }

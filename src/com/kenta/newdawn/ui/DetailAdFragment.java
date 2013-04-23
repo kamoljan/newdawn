@@ -1,7 +1,6 @@
 package com.kenta.newdawn.ui;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.kenta.newdawn.NewDawnApplication;
 import com.kenta.newdawn.R;
-import com.kenta.newdawn.model.json.HolderAd;
 import com.kenta.newdawn.model.json.ParcelableAd;
 import com.novoda.imageloader.core.model.ImageTag;
 import com.novoda.imageloader.core.model.ImageTagFactory;

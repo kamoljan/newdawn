@@ -9,7 +9,6 @@ import android.widget.SearchView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.kenta.newdawn.R;
-import com.kenta.newdawn.model.json.HolderAd;
 import com.kenta.newdawn.model.json.ParcelableAd;
 import com.kenta.newdawn.util.LogUtils;
 import com.kenta.newdawn.util.UIUtils;

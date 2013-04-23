@@ -10,7 +10,6 @@ public class ListAdRequest extends SpringAndroidSpiceRequest<ListAd> {
 
     private String keyword;
     private int offset;
-    private int limit = 0;
 
     public ListAdRequest(String keyword, int offset) {
         super(ListAd.class);

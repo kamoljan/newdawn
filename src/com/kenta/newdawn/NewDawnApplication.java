@@ -4,7 +4,6 @@ import android.app.Application;
 import com.novoda.imageloader.core.ImageManager;
 import com.novoda.imageloader.core.LoaderSettings;
 
-
 public class NewDawnApplication extends Application {
 
     /**
