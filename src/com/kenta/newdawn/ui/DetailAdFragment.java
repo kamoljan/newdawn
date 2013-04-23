@@ -63,24 +63,20 @@ public class DetailAdFragment extends SherlockFragment {
     public void updateAdView(ParcelableAd _ad) {
     	TextView tv_list_id = (TextView) getActivity().findViewById(R.id.tv_list_id);
         tv_list_id.setText(_ad.getListId());
-        
         TextView tv_subject = (TextView) getActivity().findViewById(R.id.tv_subject);
         tv_subject.setText(_ad.getSubject());
-        
         TextView tv_body = (TextView) getActivity().findViewById(R.id.tv_body);
         tv_body.setText(_ad.getBody());
-        
         TextView tv_price = (TextView) getActivity().findViewById(R.id.tv_price);
         tv_price.setText(_ad.getPrice());
-        
         TextView tv_date = (TextView) getActivity().findViewById(R.id.tv_date);
         tv_date.setText(_ad.getDate());
-        
+        /*
         TextView tv_name = (TextView) getActivity().findViewById(R.id.tv_name);
         tv_name.setText(_ad.getName());
-        
         TextView tv_phone = (TextView) getActivity().findViewById(R.id.tv_phone);
         tv_phone.setText(_ad.getPhone());
+        */
         
         ImageView iv_image = (ImageView) getActivity().findViewById(R.id.iv_image);
         ImageTag it_image = imageTagFactory.build(_ad.getImage().replace("thumbs", "images"), getActivity().getApplicationContext());
