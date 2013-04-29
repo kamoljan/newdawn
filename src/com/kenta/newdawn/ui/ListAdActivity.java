@@ -5,7 +5,6 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.SearchView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -46,9 +45,9 @@ public class ListAdActivity extends BaseActivity implements
 		listAdFragment.setArguments(getIntent().getExtras());
 
 		// Add the fragment to the 'fragment_container' FrameLayout
-		getSupportFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, listAdFragment).commit();
+		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, listAdFragment).commit();
 
+        getActionBar().setHomeButtonEnabled(false);
 	}
 
 	// --------------------------------------------------------------------------------------------

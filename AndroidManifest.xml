@@ -17,8 +17,8 @@
             android:label="@string/app_name"
             android:icon="@drawable/ic_launcher"
             android:logo="@drawable/ic_logo"
-            android:theme="@style/Theme.Newdawn"
             android:name=".NewDawnApplication">
+        <!--android:theme="@style/Theme.Newdawn"-->
 
         <activity
                 android:name="com.kenta.newdawn.ui.ListAdActivity"

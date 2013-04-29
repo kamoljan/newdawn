@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">newdawn</string>
+    <string name="app_name">New Dawn</string>
     <string name="title_discover">Discover</string>
 
     <string name="description_search">Search</string>

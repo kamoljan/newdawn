@@ -60,6 +60,7 @@
         <item name="android:windowBackground">@drawable/grey_background_pattern</item>
         <item name="android:actionBarStyle">@style/ActionBar.Home</item>
         <item name="actionBarStyle">@style/ActionBar.Home</item>
+
     </style>
 
     <style name="ActionBar.Home" parent="ActionBar">
