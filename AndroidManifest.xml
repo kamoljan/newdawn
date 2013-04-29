@@ -52,6 +52,7 @@
         <!-- http://developer.android.com/guide/topics/ui/actionbar.html#SplitBar -->
         <activity
                 android:name="com.kenta.newdawn.ui.DetailAdActivity"
+                android:theme="@style/Theme.Newdawn"
                 android:uiOptions="splitActionBarWhenNarrow"
                 android:label="@string/app_name"
                 android:launchMode="singleTop">
