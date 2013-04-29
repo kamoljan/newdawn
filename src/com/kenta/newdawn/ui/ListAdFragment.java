@@ -134,7 +134,7 @@ public class ListAdFragment extends SherlockListFragment {
         @Override
         public void onRequestSuccess(ListAd result) {
             mListAds = result;
-            Toast.makeText(getListView().getContext(), "onPostExecute babe!!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getListView().getContext(), "onPostExecute babe!!", Toast.LENGTH_SHORT).show();
             mFilteredAds = mListAds.filtered;
             append2Adapter();
             isLoading = false;
@@ -153,8 +153,7 @@ public class ListAdFragment extends SherlockListFragment {
         mListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getListView().getContext(), position + "", Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(getListView().getContext(), position + "", Toast.LENGTH_SHORT).show();
                 // Notify the parent activity of selected item
                 mCallback.onAdSelected(listAdArrayAdapter.getItem(position));
             }
